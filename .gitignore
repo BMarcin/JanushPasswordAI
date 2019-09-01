@@ -1,0 +1,9 @@
+.ipynb_checkpoints
+dataset/
+100k.txt
+polski.txt
+polski-18k.txt
+polskie-slowa.txt
+WSZYSTKIE_DEHASHED.txt
+JanushPasswordGAN/hashcat.potfile
+JanushPasswordGAN/outed.txt
