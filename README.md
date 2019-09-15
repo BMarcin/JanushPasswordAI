@@ -17,6 +17,26 @@ Zbiór walidacyjny służyć ma do sprawdzenia, czy przygotowany przez nas model
 Porównywanie haseł utworzonych przez nasze AI z hasłami ze zbioru walidacyjnego nie ma większego sensu, gdyż nawet na etapie uczenia mogliśmy spotkać hasła o wspólnym początku, a innych końcówkach. Model nie ma żadnych podstaw do wnioskowania, które zakończenie należy wykorzystać w danym momencie i to samo tyczy się etapu ewaluacji. Taki stan rzeczy doprowadza do sytuacji w której w zbiorze walidacyjnym będziemy mieć np. hasło "kicia08", a nasz model wygeneruje hasło "kicia09". Występowanie obu końcówek jest równie prawdopodobne (prawdopodobnie 😆), a metoda porównań 1:1 nie jest w stanie tego przedstawić.
 Metoda schematowa jest w stanie to opisać i dała nam bardzo dobre wyniki. Sieć wygenerowała 322 hasła (hasła, które się powtarzały były liczbowe oraz głownie składały się z liter na początku i cyfr na końcu), które idealnie odwzorowywały hasła ze zbioru walidacyjnego (to około 3.60% pokrycia). Sprawdzając natomiast strukturę wygenerowanych haseł (metoda schematowa) uzyskaliśmy **88.40%** pokrycia (do tego wyniku nie wliczają się hasła, które powtórzyły się 1:1 w zbiorach)! 
 
+## Struktura
+```
+.
+├── README.md                   <-- Plik który aktualnie czytasz 😎
+├── LICENSE                     <-- Licencja, którą warto przeczytać
+├── haslaAI.txt                 <-- Hasła wygenerowane przez przeuczony przez nas model 
+├── JanushPasswordAI.pdf        <-- Techniczna dokumentacja projektu opisująca całą jego historię
+├── Notebooks                         
+│   ├── Ewaluacja.ipynb         <-- Zawiera skrypty służące do generowania i zapisywania wygenerowanych haseł
+│   ├── PodziałDatasetu.ipynb   <-- Dzielimy plik potfiled.txt na zbiór uczący i walidacyjny
+│   ├── Uczenie.ipynb           <-- Skrypty przetwarzające dane i uczące model
+│   └── Walidacja.ipynb         <-- Sprawdzenie jak nasz model wypada liczbowo, czyli jak bardzo generowane hasła są podobne do tych ze zbioru walidacyjnego
+├── dataset                         
+│   ├── potfiled.txt            <-- Hasła, które pochodzą z pliku HashCata (plik zawierający w każdej linijce jedno hasło)(przykładowo uzupełnione)
+│   ├── test_all.txt            <-- Hasła zbioru walidacyjnego (przykładowo uzupełnione)
+│   └── train_all.txt           <-- Hasła zbioru testowego (przykładowo uzupełnione)
+└── models                         
+    ├── NEWDS_START_(...).pt    <-- Przeuczony przez nas model
+    └── zmienne_modelu.pth      <-- Zmienne wymagane do ewaluacji pochodzące z trenowania modelu
+```
 
 ## Architektura modelu
 Zdecydowaliśmy się wzorować na modelach językowych i wykorzystaliśmy rekurencyjne sieci neuronowe oparte o dwukierunkowe komórki GRU. Model posiada 15 takich komórek oraz rozmiar *hidden* = 40. Ostatecznie otrzymaliśmy model, który posiada 456 990 parametrów podlegających uczeniu.
